@@ -1,17 +1,18 @@
 <template>
     <div class="hello">
+        <router-link to="/categories/add" class="btn btn-success">Dodaj kategorię</router-link>
         <table class="table table-hover">
             <tr>
                 <th>Id</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Surname</th>
+                <th>Nazwa</th>
+                <th>Edycja</th>
+                <th>Usuwanie</th>
             </tr>
-            <tr v-for="category in categories.data.data" :key="category.id">
+            <tr v-for="category in categories.data['hydra:member']" :key="category.id">
                 <td>{{category.id}}</td>
-                <td> <img :src=category.avatar /></td>
-                <td>{{category.first_name}}</td>
-                <td>{{category.last_name}}</td>
+                <td>{{category.name}}</td>
+                <td><router-link v-bind:to="'/categories/'+category.id+'/edit'" class="btn btn-success">Edytuj</router-link></td>
+                <td>delete</td>
             </tr>
         </table>
     </div>
@@ -26,7 +27,7 @@ export default {
   },
   methods: {
     fetchCategories () {
-      this.axios.get('https://reqres.in/api/users?page=2').then((response) => {
+      this.axios.get('http://localhost/api/categories').then((response) => {
         this.categories = response
       })
     }
